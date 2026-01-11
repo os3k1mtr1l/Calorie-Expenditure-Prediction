@@ -1,8 +1,19 @@
 training:
+#def
+  # learning_rate: 1e-3
+  # epochs: 30
+  # batch_size: 64
+  # momentum: 0.9
+
   learning_rate: 1e-3
   epochs: 30
-  batch_size: 64
+  batch_size: 16
   momentum: 0.9
+  seed: 72
 
 data:
   train: "data/train.csv"
+  test: "data/test.csv"
+  save: "data/submission.csv"
+
+model: "data/best_model.pth"

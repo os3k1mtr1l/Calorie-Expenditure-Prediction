@@ -2,19 +2,27 @@ import torch
 from torch.utils.data import Dataset
 import pandas as pd
 
-
 def load_data(csv_file: str) -> tuple[torch.Tensor, torch.Tensor]:
     data: pd.DataFrame = pd.read_csv(csv_file)
     data['Sex'] = data['Sex'].map({'male': 1, 'female': 0}).astype(float)
 
     features: pd.DataFrame = data.drop(columns=['Calories', 'id'])
-    target: pd.DataFrame = data['Calories']
+    target: Dataset = data['Calories']
 
     x: torch.Tensor = torch.tensor(features.values, dtype=torch.float32)
     y: torch.Tensor = torch.tensor(target.values, dtype=torch.float32).view(-1, 1)
     
     return x, y
 
+def load_test_data(csv_file: str) -> tuple[pd.Series, torch.Tensor]:
+    data: pd.DataFrame = pd.read_csv(csv_file)
+    data["Sex"] = data["Sex"].map({"male": 1, "female": 0}).astype(float)
+
+    ids = data["id"]
+    features = data.drop(columns=["id"])
+
+    x = torch.tensor(features.values, dtype=torch.float32)
+    return ids, x
 
 class WorkoutDataset(Dataset):
 
